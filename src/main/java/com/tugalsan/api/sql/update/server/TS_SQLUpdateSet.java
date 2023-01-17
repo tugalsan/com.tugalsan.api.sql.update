@@ -11,27 +11,27 @@ public class TS_SQLUpdateSet {
     }
     private TS_SQLUpdateExecutor executor;
 
-    public int whereGroupAnd(TGS_ExecutableType1<TS_SQLWhereGroups> groups) {
+    public TS_SQLConnStmtUpdateResult whereGroupAnd(TGS_ExecutableType1<TS_SQLWhereGroups> groups) {
         executor.where = TS_SQLWhereUtils.where();
         executor.where.groupsAnd(groups);
         return executor.execute();
     }
 
-    public int whereGroupOr(TGS_ExecutableType1<TS_SQLWhereGroups> groups) {
+    public TS_SQLConnStmtUpdateResult whereGroupOr(TGS_ExecutableType1<TS_SQLWhereGroups> groups) {
         executor.where = TS_SQLWhereUtils.where();
         executor.where.groupsOr(groups);
         return executor.execute();
     }
 
-    public int whereConditionAnd(TGS_ExecutableType1<TS_SQLWhereConditions> conditions) {
+    public TS_SQLConnStmtUpdateResult whereConditionAnd(TGS_ExecutableType1<TS_SQLWhereConditions> conditions) {
         return whereGroupAnd(where -> where.conditionsAnd(conditions));
     }
 
-    public int whereConditionOr(TGS_ExecutableType1<TS_SQLWhereConditions> conditions) {
+    public TS_SQLConnStmtUpdateResult whereConditionOr(TGS_ExecutableType1<TS_SQLWhereConditions> conditions) {
         return whereGroupOr(where -> where.conditionsOr(conditions));
     }
 
-    public int whereFirstColumnAsId(long id) {
+    public TS_SQLConnStmtUpdateResult whereFirstColumnAsId(long id) {
         return whereConditionAnd(conditions -> {
             conditions.lngEq(
                     TS_SQLConnColUtils.names(executor.anchor, executor.tableName).get(0),
@@ -40,7 +40,7 @@ public class TS_SQLUpdateSet {
         });
     }
 
-    public int whereConditionNone() {
+    public TS_SQLConnStmtUpdateResult whereConditionNone() {
         return executor.execute();
     }
 }
