@@ -1,6 +1,6 @@
 package com.tugalsan.api.sql.update.server;
 
-import com.tugalsan.api.executable.client.*;
+import com.tugalsan.api.runnable.client.*;
 import com.tugalsan.api.sql.conn.server.*;
 import com.tugalsan.api.sql.where.server.*;
 
@@ -11,23 +11,23 @@ public class TS_SQLUpdateSet {
     }
     private TS_SQLUpdateExecutor executor;
 
-    public TS_SQLConnStmtUpdateResult whereGroupAnd(TGS_ExecutableType1<TS_SQLWhereGroups> groups) {
+    public TS_SQLConnStmtUpdateResult whereGroupAnd(TGS_RunnableType1<TS_SQLWhereGroups> groups) {
         executor.where = TS_SQLWhereUtils.where();
         executor.where.groupsAnd(groups);
-        return executor.execute();
+        return executor.run();
     }
 
-    public TS_SQLConnStmtUpdateResult whereGroupOr(TGS_ExecutableType1<TS_SQLWhereGroups> groups) {
+    public TS_SQLConnStmtUpdateResult whereGroupOr(TGS_RunnableType1<TS_SQLWhereGroups> groups) {
         executor.where = TS_SQLWhereUtils.where();
         executor.where.groupsOr(groups);
-        return executor.execute();
+        return executor.run();
     }
 
-    public TS_SQLConnStmtUpdateResult whereConditionAnd(TGS_ExecutableType1<TS_SQLWhereConditions> conditions) {
+    public TS_SQLConnStmtUpdateResult whereConditionAnd(TGS_RunnableType1<TS_SQLWhereConditions> conditions) {
         return whereGroupAnd(where -> where.conditionsAnd(conditions));
     }
 
-    public TS_SQLConnStmtUpdateResult whereConditionOr(TGS_ExecutableType1<TS_SQLWhereConditions> conditions) {
+    public TS_SQLConnStmtUpdateResult whereConditionOr(TGS_RunnableType1<TS_SQLWhereConditions> conditions) {
         return whereGroupOr(where -> where.conditionsOr(conditions));
     }
 
@@ -41,6 +41,6 @@ public class TS_SQLUpdateSet {
     }
 
     public TS_SQLConnStmtUpdateResult whereConditionNone() {
-        return executor.execute();
+        return executor.run();
     }
 }

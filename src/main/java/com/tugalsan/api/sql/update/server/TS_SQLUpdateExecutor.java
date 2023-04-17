@@ -47,7 +47,7 @@ public class TS_SQLUpdateExecutor {
         return pack.value0;
     }
 
-    public TS_SQLConnStmtUpdateResult execute() {
+    public TS_SQLConnStmtUpdateResult run() {
         return TS_SQLUpdateStmtUtils.update(anchor, toString(), fillStmt -> {
             var idx = set_fill(fillStmt, 0);
             where.fill(fillStmt, idx);
