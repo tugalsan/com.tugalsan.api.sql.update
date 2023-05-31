@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.stream.*;
 import com.tugalsan.api.list.client.*;
-import com.tugalsan.api.pack.client.*;
+import com.tugalsan.api.tuple.client.*;
 import com.tugalsan.api.sql.conn.server.*;
 import com.tugalsan.api.sql.sanitize.server.*;
 import com.tugalsan.api.sql.where.server.*;
@@ -18,7 +18,7 @@ public class TS_SQLUpdateExecutor {
     final public TS_SQLConnAnchor anchor;
     final public CharSequence tableName;
 
-    public List<TGS_Pack2<String, Object>> set = TGS_ListUtils.of();
+    public List<TGS_Tuple2<String, Object>> set = TGS_ListUtils.of();
     public TS_SQLWhere where = null;
 
     private String set_toString() {
@@ -40,7 +40,7 @@ public class TS_SQLUpdateExecutor {
     }
 
     private int set_fill(PreparedStatement fillStmt, int offset) {
-        TGS_Pack1<Integer> pack = new TGS_Pack1(offset);
+        TGS_Tuple1<Integer> pack = new TGS_Tuple1(offset);
         IntStream.range(0, set.size()).forEachOrdered(i -> {
             pack.value0 = TS_SQLConnStmtUtils.fill(fillStmt, set.get(i).value0, set.get(i).value1, pack.value0);
         });
