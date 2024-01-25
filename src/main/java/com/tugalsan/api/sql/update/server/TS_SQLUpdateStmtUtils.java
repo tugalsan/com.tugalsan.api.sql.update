@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.*;
 import com.tugalsan.api.runnable.client.*;
 import com.tugalsan.api.log.server.*;
-import com.tugalsan.api.tuple.client.*;
 import com.tugalsan.api.sql.conn.server.*;
 
 public class TS_SQLUpdateStmtUtils {

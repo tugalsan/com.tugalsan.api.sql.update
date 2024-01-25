@@ -9,7 +9,7 @@ public class TS_SQLUpdateSet {
     public TS_SQLUpdateSet(TS_SQLUpdateExecutor executor) {
         this.executor = executor;
     }
-    private TS_SQLUpdateExecutor executor;
+    private final TS_SQLUpdateExecutor executor;
 
     public TS_SQLConnStmtUpdateResult whereGroupAnd(TGS_RunnableType1<TS_SQLWhereGroups> groups) {
         executor.where = TS_SQLWhereUtils.where();
