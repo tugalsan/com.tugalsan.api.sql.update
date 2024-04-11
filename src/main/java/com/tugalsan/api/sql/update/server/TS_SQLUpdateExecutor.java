@@ -2,12 +2,11 @@ package com.tugalsan.api.sql.update.server;
 
 import java.sql.*;
 import java.util.*;
-import java.util.stream.*;
 import com.tugalsan.api.list.client.*;
-import com.tugalsan.api.tuple.client.*;
 import com.tugalsan.api.sql.conn.server.*;
 import com.tugalsan.api.sql.sanitize.server.*;
 import com.tugalsan.api.sql.where.server.*;
+import com.tugalsan.api.union.client.TGS_UnionExcuse;
 
 public class TS_SQLUpdateExecutor {
 
@@ -18,14 +17,14 @@ public class TS_SQLUpdateExecutor {
     final public TS_SQLConnAnchor anchor;
     final public CharSequence tableName;
 
-    public List<TGS_Tuple2<String, Object>> set = TGS_ListUtils.of();
+    public List<TS_SQLUpdateParam> set = TGS_ListUtils.of();
     public TS_SQLWhere where = null;
 
     private String set_toString() {
         var sj = new StringJoiner(",");
         set.stream().forEachOrdered(pair -> {
-            TS_SQLSanitizeUtils.sanitize(pair.value0);
-            sj.add(pair.value0 + " = ?");
+            TS_SQLSanitizeUtils.sanitize(pair.name());
+            sj.add(pair.name() + " = ?");
         });
         return sj.toString();
     }
@@ -39,18 +38,34 @@ public class TS_SQLUpdateExecutor {
         return sb.toString();
     }
 
-    private int set_fill(PreparedStatement fillStmt, int offset) {
-        TGS_Tuple1<Integer> pack = new TGS_Tuple1(offset);
-        IntStream.range(0, set.size()).forEachOrdered(i -> {
-            pack.value0 = TS_SQLConnStmtUtils.fill(fillStmt, set.get(i).value0, set.get(i).value1, pack.value0);
-        });
-        return pack.value0;
+    private TGS_UnionExcuse<Integer> set_fill(PreparedStatement fillStmt, int offset) {
+        var wrap = new Object() {
+            int nextOffset = offset;
+        };
+        for (var i = 0; i < set.size(); i++) {
+            var u = TS_SQLConnStmtUtils.fill(fillStmt, set.get(i).name(), set.get(i).value(), wrap.nextOffset);
+            if (u.isExcuse()) {
+                return u;
+            }
+            wrap.nextOffset = u.value();
+        }
+        return TGS_UnionExcuse.of(wrap.nextOffset);
     }
 
-    public TS_SQLConnStmtUpdateResult run() {
-        return TS_SQLUpdateStmtUtils.update(anchor, toString(), fillStmt -> {
-            var idx = set_fill(fillStmt, 0);
-            where.fill(fillStmt, idx);
+    public TGS_UnionExcuse<TS_SQLConnStmtUpdateResult> run() {
+        var wrap = new Object() {
+            TGS_UnionExcuse<Integer> u_set_fill = null;
+        };
+        var u_update = TS_SQLUpdateStmtUtils.update(anchor, toString(), fillStmt -> {
+            wrap.u_set_fill = set_fill(fillStmt, 0);
+            if (wrap.u_set_fill.isExcuse()) {
+                return;
+            }
+            where.fill(fillStmt, wrap.u_set_fill.value());
         });
+        if (wrap.u_set_fill.isExcuse()) {
+            return wrap.u_set_fill.toExcuse();
+        }
+        return u_update;
     }
 }
