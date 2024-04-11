@@ -63,7 +63,7 @@ public class TS_SQLUpdateExecutor {
             }
             where.fill(fillStmt, wrap.u_set_fill.value());
         });
-        if (wrap.u_set_fill.isExcuse()) {
+        if (wrap.u_set_fill != null && wrap.u_set_fill.isExcuse()) {
             return wrap.u_set_fill.toExcuse();
         }
         return u_update;
