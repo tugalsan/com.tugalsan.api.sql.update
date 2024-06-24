@@ -1,6 +1,6 @@
 module com.tugalsan.api.sql.update {
     requires java.sql;
-    requires com.tugalsan.api.runnable;
+    requires com.tugalsan.api.callable;
     requires com.tugalsan.api.log;
     requires com.tugalsan.api.string;
     requires com.tugalsan.api.list;
