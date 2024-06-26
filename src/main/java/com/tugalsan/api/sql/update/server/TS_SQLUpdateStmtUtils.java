@@ -1,6 +1,6 @@
 package com.tugalsan.api.sql.update.server;
 
-import com.tugalsan.api.callable.client.TGS_CallableType1Void;
+import com.tugalsan.api.callable.client.TGS_CallableType1_Run;
 import java.sql.*;
 import java.util.*;
 
@@ -19,7 +19,7 @@ public class TS_SQLUpdateStmtUtils {
         return update(anchor, sqlStmt, fillStmt -> TS_SQLConnStmtUtils.fill(fillStmt, colNames, params, 0));
     }
 
-    public static TS_SQLConnStmtUpdateResult update(TS_SQLConnAnchor anchor, CharSequence sqlStmt, TGS_CallableType1Void<PreparedStatement> fillStmt) {
+    public static TS_SQLConnStmtUpdateResult update(TS_SQLConnAnchor anchor, CharSequence sqlStmt, TGS_CallableType1_Run<PreparedStatement> fillStmt) {
         return TS_SQLConnWalkUtils.update(anchor, sqlStmt, fillStmt);
     }
 
