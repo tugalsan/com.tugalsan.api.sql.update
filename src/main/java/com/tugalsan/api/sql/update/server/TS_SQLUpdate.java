@@ -1,6 +1,6 @@
 package com.tugalsan.api.sql.update.server;
 
-import com.tugalsan.api.callable.client.TGS_CallableType1_Run;
+import com.tugalsan.api.function.client.TGS_Func_In1;
 import java.util.*;
 
 import com.tugalsan.api.tuple.client.*;
@@ -13,7 +13,7 @@ public class TS_SQLUpdate {
     }
     private final TS_SQLUpdateExecutor executor;
 
-    public TS_SQLUpdateSet set(TGS_CallableType1_Run<List<TGS_Tuple2<String, Object>>> set) {
+    public TS_SQLUpdateSet set(TGS_Func_In1<List<TGS_Tuple2<String, Object>>> set) {
         set.run(executor.set);
         return new TS_SQLUpdateSet(executor);
     }
