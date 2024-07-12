@@ -40,7 +40,7 @@ public class TS_SQLUpdateExecutor {
             sb.append(" ").append(where);
         }
         var str = sb.toString();
-        d.ci(tableName, str);
+        d.ci("toString", str);
         return str;
     }
 
