@@ -40,7 +40,8 @@ public class TS_SQLUpdateExecutor {
             sb.append(" ").append(where);
         }
         var str = sb.toString();
-        d.ci("toString", str);
+        d.ci("toString", "pstmt", str);
+        d.ci("toString", "set", set);
         return str;
     }
 
