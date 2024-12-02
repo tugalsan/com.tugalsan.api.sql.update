@@ -9,12 +9,12 @@ public class TS_SQLUpdateUtils {
         return new TS_SQLUpdate(anchor, tableName);
     }
 
-    public static void test() {
-        TS_SQLUpdateUtils
-                .update(null, "tn")
-                .set(set -> {
-                    set.add(new TGS_Tuple2("ali", "12"));
-                })
-                .whereConditionAnd(conditions -> conditions.lngEq("", 0));
-    }
+//    public static void test() {
+//        TS_SQLUpdateUtils
+//                .update(null, "tn")
+//                .set(set -> {
+//                    set.add(new TGS_Tuple2("ali", "12"));
+//                })
+//                .whereConditionAnd(conditions -> conditions.lngEq("", 0));
+//    }
 }
